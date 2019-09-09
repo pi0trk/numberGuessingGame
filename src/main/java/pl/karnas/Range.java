@@ -2,28 +2,30 @@ package pl.karnas;
 
 import java.util.Random;
 
-public class Range {
+class Range {
 
+    //floor inclusive
     private int floor;
+    //ceiling exclusive
     private int ceiling;
 
 
-    public Range() {
+    Range() {
         floor = 0;
         ceiling = 10;
     }
 
-    public Range(int floor, int ceiling) throws IllegalAccessException {
+    Range(int floor, int ceiling) throws IllegalAccessException {
         if (floor > ceiling) {
-            throw new IllegalAccessException("Flor is above the ceiling only in fairy tails!");
+            throw new IllegalAccessException("\n\n--- Flor is above the ceiling only in fairy tails! ---\n");
         }
         this.floor = floor;
         this.ceiling = ceiling;
     }
 
-    public int drawRandomNumber() {
-        int randomNumber = new Random().nextInt(ceiling + 1) + floor;
-        return randomNumber;
+    int drawRandomNumber() {
+        if (ceiling == floor) return floor;
+        return new Random().nextInt(ceiling - floor) + floor;
     }
 
     boolean guessedNumberIsInRange(int number) {

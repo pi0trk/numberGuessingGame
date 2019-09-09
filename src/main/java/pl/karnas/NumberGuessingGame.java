@@ -2,44 +2,45 @@ package pl.karnas;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import static pl.karnas.Hints.NUMBER_NOT_IN_RANGE;
 import static pl.karnas.Hints.NUMBER_TOO_HIGH;
 import static pl.karnas.Hints.NUMBER_TOO_LOW;
 import static pl.karnas.Hints.PERFECT_GUESS;
 
-/**
- * Game where user is trying to guess random number from the given range.
- *
- * @author pi0trk
- */
-public class NumberGuessingGame {
-    public static void main(String[] args) throws IllegalAccessException {
+class NumberGuessingGame {
 
-        Range range;
-        range = new Range(2,6);
+    private final Range range;
+    private final int maxGuessTries;
+    private final Logger log = Logger.getLogger(NumberGuessingGame.class.getName());
+
+    public NumberGuessingGame(int floor, int ceiling, int maxGuessTries) throws IllegalAccessException {
+        this.range = new Range(floor, ceiling);
+        this.maxGuessTries = maxGuessTries;
+    }
+
+    void play()  {
         final int randomNumber = range.drawRandomNumber();
-        final int MAX_GUESS_TRIES = 4;
-        int attempts = 0;
-        int yourGuess = -1;
-
-        Scanner sc = new Scanner(System.in);
-
+        int attempts = 1;
+        int yourGuess;
 
         System.out.println("Welcome to Number Guessing Game! Please try guess number from the range " + range.toString()
-                + "\nRemember, you have just " + MAX_GUESS_TRIES + " guessing attempts.\n");
+                + "\nRemember, you have just " + maxGuessTries + " guessing attempts.\n");
 
 
         //TODO: delete this below hint!
-        System.out.println("Secret number is: " + randomNumber);
+        System.out.println("Secret number is: " + randomNumber + "\n");
 
+        Scanner sc = new Scanner(System.in);
         do {
-            System.out.print("Type your guess nr " + (attempts += 1) + ": ");
+            System.out.print("Type your guess nr " + attempts + ": ");
+            attempts += 1;
 
             try {
                 yourGuess = sc.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("--- Provided input is in wrong format or not a integer! Exit.. ---");
+                log.info("--- Provided input is in wrong format or not an integer! Exit.. ---");
                 return;
             }
 
@@ -49,10 +50,11 @@ public class NumberGuessingGame {
                 System.out.println(NUMBER_NOT_IN_RANGE);
             } else if (yourGuess < randomNumber) {
                 System.out.println(NUMBER_TOO_LOW);
-            } else if (yourGuess > randomNumber) {
+            } else {
                 System.out.println(NUMBER_TOO_HIGH);
             }
+        }
+        while (yourGuess != randomNumber && attempts <= maxGuessTries);
 
-        } while (yourGuess != randomNumber && attempts < MAX_GUESS_TRIES);
     }
 }
