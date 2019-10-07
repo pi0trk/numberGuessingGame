@@ -4,18 +4,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import static pl.karnas.Hints.NUMBER_NOT_IN_RANGE;
-import static pl.karnas.Hints.NUMBER_TOO_HIGH;
-import static pl.karnas.Hints.NUMBER_TOO_LOW;
-import static pl.karnas.Hints.PERFECT_GUESS;
-
 class NumberGuessingGame {
 
     private final Range range;
     private final int maxGuessTries;
     private final Logger log = Logger.getLogger(NumberGuessingGame.class.getName());
 
-    public NumberGuessingGame(int floor, int ceiling, int maxGuessTries) {
+    NumberGuessingGame(int floor, int ceiling, int maxGuessTries) {
         this.range = new Range(floor, ceiling);
         this.maxGuessTries = maxGuessTries;
     }
@@ -27,10 +22,6 @@ class NumberGuessingGame {
 
         System.out.println("Welcome to Number Guessing Game! Please try guess number from the range " + range.toString()
                 + "\nRemember, you have just " + maxGuessTries + " guessing attempts.\n");
-
-
-        //TODO: delete this below hint!
-        System.out.println("Secret number is: " + randomNumber + "\n");
 
         Scanner sc = new Scanner(System.in);
         do {
@@ -44,17 +35,10 @@ class NumberGuessingGame {
                 return;
             }
 
-            if (yourGuess == randomNumber) {
-                System.out.println(PERFECT_GUESS);
-            } else if (!range.guessedNumberIsInRange(yourGuess)) {
-                System.out.println(NUMBER_NOT_IN_RANGE);
-            } else if (yourGuess < randomNumber) {
-                System.out.println(NUMBER_TOO_LOW);
-            } else {
-                System.out.println(NUMBER_TOO_HIGH);
-            }
+            range.guessCheck(yourGuess, randomNumber);
         }
-        while (yourGuess != randomNumber && attempts <= maxGuessTries);
+        while (!range.isGuessed(yourGuess, randomNumber) && attempts <= maxGuessTries);
 
     }
+
 }

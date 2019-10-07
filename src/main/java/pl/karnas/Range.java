@@ -2,6 +2,8 @@ package pl.karnas;
 
 import java.util.Random;
 
+import static pl.karnas.Hints.*;
+
 class Range {
 
     private int floor;
@@ -21,10 +23,26 @@ class Range {
     }
 
     int drawRandomNumber() {
-        return new Random().nextInt(ceiling - floor+1) + floor;
+        return new Random().nextInt(ceiling - floor + 1) + floor;
     }
 
-    boolean guessedNumberIsInRange(int number) {
+    void guessCheck(int yourGuess, int randomNumber) {
+        if (isGuessed(yourGuess, randomNumber)) {
+            System.out.println(PERFECT_GUESS);
+        } else if (!numberIsInRange(yourGuess)) {
+            System.out.println(NUMBER_NOT_IN_RANGE);
+        } else if (yourGuess < randomNumber) {
+            System.out.println(NUMBER_TOO_LOW);
+        } else {
+            System.out.println(NUMBER_TOO_HIGH);
+        }
+    }
+
+    boolean isGuessed(int yourGuess, int randomNumber) {
+        return (yourGuess == randomNumber);
+    }
+
+    private boolean numberIsInRange(int number) {
         return floor <= number && number <= ceiling;
     }
 
