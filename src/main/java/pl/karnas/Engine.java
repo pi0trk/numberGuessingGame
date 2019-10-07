@@ -4,17 +4,18 @@ import java.util.Random;
 
 import static pl.karnas.Hints.*;
 
-class Range {
+class Engine {
 
     private int floor;
     private int ceiling;
+    static int attempts = 1;
 
-    Range() {
+    Engine() {
         floor = 0;
         ceiling = 10;
     }
 
-    Range(int floor, int ceiling) {
+    Engine(int floor, int ceiling) {
         if (floor > ceiling) {
             throw new IllegalArgumentException("\n\n--- Flor is above the ceiling only in fairy tails! ---\n");
         }
@@ -22,19 +23,24 @@ class Range {
         this.ceiling = ceiling;
     }
 
+    static boolean checkGuessLimit(int maxGuessTries) {
+        attempts += 1;
+        return attempts <= maxGuessTries;
+    }
+
     int drawRandomNumber() {
         return new Random().nextInt(ceiling - floor + 1) + floor;
     }
 
-    void guessCheck(int yourGuess, int randomNumber) {
+    Enum<Hints> guessCheck(int yourGuess, int randomNumber) {
         if (isGuessed(yourGuess, randomNumber)) {
-            System.out.println(PERFECT_GUESS);
+            return PERFECT_GUESS;
         } else if (!numberIsInRange(yourGuess)) {
-            System.out.println(NUMBER_NOT_IN_RANGE);
+            return NUMBER_NOT_IN_RANGE;
         } else if (yourGuess < randomNumber) {
-            System.out.println(NUMBER_TOO_LOW);
+            return NUMBER_TOO_LOW;
         } else {
-            System.out.println(NUMBER_TOO_HIGH);
+            return NUMBER_TOO_HIGH;
         }
     }
 
