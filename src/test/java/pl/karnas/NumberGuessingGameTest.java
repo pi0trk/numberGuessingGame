@@ -17,13 +17,13 @@ public class NumberGuessingGameTest {
 
     private NumberGuessingGame game;
 
-    @Test(expected = IllegalAccessException.class)
-    public void shouldThrowIllegalAccessExceptionIfFlorHigherThanCeiling() throws IllegalAccessException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionIfFlorHigherThanCeiling() {
         game = new NumberGuessingGame(7, 5, 10);
     }
 
     @Test
-    public void afterMaxAttemptsGameShouldEnd() throws IllegalAccessException {
+    public void afterMaxAttemptsGameShouldEnd() {
         systemInMock.provideLines("5");
         game = new NumberGuessingGame(7, 7, 1);
         game.play();
@@ -31,7 +31,7 @@ public class NumberGuessingGameTest {
     }
 
     @Test
-    public void drawNumberShouldBeBetweenGivenValuesWithFloorInclusiveAndCeilingExclusive() throws IllegalAccessException {
+    public void drawNumberShouldBeBetweenGivenValuesWithFloorInclusiveAndCeilingExclusive() {
         systemInMock.provideLines("6");
         game = new NumberGuessingGame(5, 8, 1);
         game.play();
@@ -39,7 +39,7 @@ public class NumberGuessingGameTest {
     }
 
     @Test
-    public void shouldProvideSuccessMessageIfNumberFound() throws IllegalAccessException {
+    public void shouldProvideSuccessMessageIfNumberFound() {
         systemInMock.provideLines("6", "7");
         game = new NumberGuessingGame(6, 8, 2);
         game.play();

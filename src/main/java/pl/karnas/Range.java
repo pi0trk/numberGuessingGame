@@ -4,28 +4,24 @@ import java.util.Random;
 
 class Range {
 
-    //floor inclusive
     private int floor;
-    //ceiling exclusive
     private int ceiling;
-
 
     Range() {
         floor = 0;
         ceiling = 10;
     }
 
-    Range(int floor, int ceiling) throws IllegalAccessException {
+    Range(int floor, int ceiling) {
         if (floor > ceiling) {
-            throw new IllegalAccessException("\n\n--- Flor is above the ceiling only in fairy tails! ---\n");
+            throw new IllegalArgumentException("\n\n--- Flor is above the ceiling only in fairy tails! ---\n");
         }
         this.floor = floor;
         this.ceiling = ceiling;
     }
 
     int drawRandomNumber() {
-        if (ceiling == floor) return floor;
-        return new Random().nextInt(ceiling - floor) + floor;
+        return new Random().nextInt(ceiling - floor+1) + floor;
     }
 
     boolean guessedNumberIsInRange(int number) {
@@ -34,6 +30,6 @@ class Range {
 
     @Override
     public String toString() {
-        return "<" + floor + ", " + ceiling + '>';
+        return String.format("<%d, %d>", floor, ceiling);
     }
 }

@@ -6,7 +6,7 @@ package pl.karnas;
  * @author pi0trk
  */
 class App {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) {
         new NumberGuessingGame(2, 6, 3).play();
     }
 }

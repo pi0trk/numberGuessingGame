@@ -15,12 +15,12 @@ class NumberGuessingGame {
     private final int maxGuessTries;
     private final Logger log = Logger.getLogger(NumberGuessingGame.class.getName());
 
-    public NumberGuessingGame(int floor, int ceiling, int maxGuessTries) throws IllegalAccessException {
+    public NumberGuessingGame(int floor, int ceiling, int maxGuessTries) {
         this.range = new Range(floor, ceiling);
         this.maxGuessTries = maxGuessTries;
     }
 
-    void play()  {
+    void play() {
         final int randomNumber = range.drawRandomNumber();
         int attempts = 1;
         int yourGuess;
