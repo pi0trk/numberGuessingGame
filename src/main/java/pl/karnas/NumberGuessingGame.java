@@ -5,13 +5,14 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static pl.karnas.Engine.attempts;
+import static pl.karnas.Engine.isGuessed;
+import static pl.karnas.Engine.strategyFeedback;
 
 class NumberGuessingGame {
 
     private final Engine engine;
     private final int maxGuessTries;
     private final Logger log = Logger.getLogger(NumberGuessingGame.class.getName());
-
     NumberGuessingGame(int floor, int ceiling, int maxGuessTries) {
         this.engine = new Engine(floor, ceiling);
         this.maxGuessTries = maxGuessTries;
@@ -37,9 +38,11 @@ class NumberGuessingGame {
             }
 
             System.out.println(engine.guessCheck(yourGuess, randomNumber));
-            limit = Engine.checkGuessLimit(maxGuessTries);
+            limit = Engine.isInLimit(maxGuessTries);
         }
-        while (!engine.isGuessed(yourGuess, randomNumber) && limit);
-    }
+        while (!isGuessed(yourGuess, randomNumber) && limit);
 
+        int binaryAttempts = engine.binarySearch(randomNumber);
+        System.out.println(strategyFeedback(isGuessed(yourGuess, randomNumber), binaryAttempts));
+    }
 }

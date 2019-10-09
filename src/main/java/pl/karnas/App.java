@@ -7,6 +7,6 @@ package pl.karnas;
  */
 class App {
     public static void main(String[] args) {
-        new NumberGuessingGame(2, 6, 3).play();
+        new NumberGuessingGame(1, 7, 4).play();
     }
 }
