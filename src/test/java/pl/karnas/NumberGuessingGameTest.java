@@ -27,11 +27,11 @@ public class NumberGuessingGameTest {
         systemInMock.provideLines("5");
         game = new NumberGuessingGame(7, 7, 1);
         game.play();
-        assertThat(systemOutRule.getLog()).containsOnlyOnce("Number not in given range!");
+        assertThat(systemOutRule.getLog()).containsOnlyOnce("Very bad strategy, you're out of guess attempts!");
     }
 
     @Test
-    public void drawNumberShouldBeBetweenGivenValuesWithFloorInclusiveAndCeilingExclusive() {
+    public void drawNumberShouldBeBetweenGivenValuesWithFloorAndCeilingInclusive() {
         systemInMock.provideLines("6");
         game = new NumberGuessingGame(5, 8, 1);
         game.play();
@@ -45,5 +45,4 @@ public class NumberGuessingGameTest {
         game.play();
         assertThat(systemOutRule.getLog()).containsOnlyOnce("Bravo! You've guessed secret number!");
     }
-
 }

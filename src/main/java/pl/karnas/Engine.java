@@ -1,6 +1,5 @@
 package pl.karnas;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -52,9 +51,29 @@ class Engine {
     }
 
     int binarySearch(int randNr) {
-        List<Integer> range = IntStream.rangeClosed(floor, ceiling).boxed()
+        List<Integer> range = IntStream.rangeClosed(floor, ceiling)
+                .boxed()
                 .collect(Collectors.toList());
-        return Collections.binarySearch(range, randNr);
+        int left = 0;
+        int right = range.size() - 1;
+
+        int binaryAttempts = 1;
+        while (left <= right) {
+            int currentPosition = left + (right - left) / 2;
+
+            final Integer currentNumber = range.get(currentPosition);
+            if (currentNumber == randNr) {
+                return binaryAttempts;
+            }
+
+            if (currentNumber > randNr) {
+                right = currentPosition - 1;
+            } else if (currentNumber < randNr) {
+                left = currentPosition + 1;
+            }
+            binaryAttempts += 1;
+        }
+        return binaryAttempts;
     }
 
     static boolean isGuessed(int yourGuess, int randomNumber) {

@@ -23,7 +23,7 @@ class NumberGuessingGame {
         int yourGuess;
         boolean limit;
 
-        System.out.println("Welcome to Number Guessing Game! Please try guess number from the engine " + engine.toString()
+        System.out.println("Welcome to Number Guessing Game! Please try guess number from the range " + engine.toString()
                 + "\nRemember, you have just " + maxGuessTries + " guessing attempts.\n");
 
         Scanner sc = new Scanner(System.in);
