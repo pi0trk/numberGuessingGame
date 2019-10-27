@@ -41,7 +41,6 @@ public class EngineTest {
         assertEquals(hint, "Bravo! You've guessed secret number!");
     }
 
-
     @Test
     public void testBinarySearch() {
         int binarySearch = new Engine(2, 5).binarySearch(5);

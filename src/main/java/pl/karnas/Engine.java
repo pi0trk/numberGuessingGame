@@ -1,7 +1,10 @@
 package pl.karnas;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -11,7 +14,8 @@ class Engine {
 
     private int floor;
     private int ceiling;
-    static int attempts = 1;
+    private static int attempts = 1;
+    private final Logger log = Logger.getLogger(Engine.class.getName());
 
     Engine(int floor, int ceiling) {
         if (floor > ceiling) {
@@ -21,7 +25,7 @@ class Engine {
         this.ceiling = ceiling;
     }
 
-    static boolean isInLimit(int maxGuessTries) {
+    private static boolean isInLimit(int maxGuessTries) {
         attempts += 1;
         return attempts <= maxGuessTries;
     }
@@ -42,7 +46,7 @@ class Engine {
         }
     }
 
-    static String strategyFeedback(boolean solved, int binaryAttempts) {
+    private static String strategyFeedback(boolean solved, int binaryAttempts) {
         if (solved) {
             return String.format("\n" + "Your's strategy needed %s tries, while mine %s!", attempts - 1, binaryAttempts);
         } else {
@@ -65,7 +69,6 @@ class Engine {
             if (currentNumber == randNr) {
                 return binaryAttempts;
             }
-
             if (currentNumber > randNr) {
                 right = currentPosition - 1;
             } else if (currentNumber < randNr) {
@@ -76,7 +79,7 @@ class Engine {
         return binaryAttempts;
     }
 
-    static boolean isGuessed(int yourGuess, int randomNumber) {
+    private static boolean isGuessed(int yourGuess, int randomNumber) {
         return (yourGuess == randomNumber);
     }
 
@@ -87,5 +90,47 @@ class Engine {
     @Override
     public String toString() {
         return String.format("<%d, %d>", floor, ceiling);
+    }
+
+    void getNumbersAndEvaluateGame(int randomNumber, Scanner sc, NumberGuessingGame numberGuessingGame) {
+        int yourGuess;
+        boolean limit;
+        do {
+            System.out.print("Type your guess nr " + attempts + ": ");
+
+            try {
+                yourGuess = sc.nextInt();
+            } catch (InputMismatchException e) {
+                log.info("--- Provided input is in wrong format or not an integer! Exit.. ---");
+                return;
+            }
+
+            System.out.println(guessCheck(yourGuess, randomNumber));
+            limit = isInLimit(numberGuessingGame.maxGuessTries);
+        }
+        while (!isGuessed(yourGuess, randomNumber) && limit);
+
+        int binaryAttempts = binarySearch(randomNumber);
+        System.out.println(strategyFeedback(isGuessed(yourGuess, randomNumber), binaryAttempts));
+    }
+
+    void gameTypeSelection(NumberGuessingGame numberGuessingGame) {
+        String yourInput;
+        yourInput = numberGuessingGame.sc.next();
+
+        if (yourInput.equals("p")) {
+            numberGuessingGame.play();
+        } else if (yourInput.equals("a")) {
+            System.out.println("Provide floor: ");
+            try {
+                floor = numberGuessingGame.sc.nextInt();
+                System.out.println("Provide ceiling: ");
+                ceiling = numberGuessingGame.sc.nextInt();
+            } catch (InputMismatchException e) {
+                log.info("--- Provided input is in wrong format or not an Integer! Exit.. ---");
+                return;
+            }
+            new NumberGuessingGame(floor, ceiling, numberGuessingGame.maxGuessTries).play();
+        } else log.info("--- Wrong data input or invalid option. Exit.. ---");
     }
 }
